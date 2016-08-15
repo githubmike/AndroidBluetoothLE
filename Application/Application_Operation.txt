@@ -1,0 +1,45 @@
+
+Describe all that happens during Service discovery
+
+Created -> Started -> Resume
+
+DeviceScanActivity ... specified as application activity in AndroidManifest
+
+1. onCreate
+    check if BLE is supported
+    create mBluetoothAdapter
+        mBluetoothAdapter = bluetoothManager.getAdapter()
+
+2. onResume
+    check if BLE is enabled
+        if not request via intent to do so
+    create and initialize list view adapter
+        mLeDeviceListAdapter = new LeDeviceListAdapter();
+        setListAdapter(mLeDeviceListAdapter);
+    scanLeDevice
+
+onCreateOptionsMenu
+    menu_stop
+    menu_scan
+    menu_refresh
+
+onOptionsItemSelected
+    do this if requested via the menu
+        scanLeDevice(true)
+
+3. scanLeDevice
+    on a separate thread
+        timeout if nothing found in scan over given period
+    mBluetoothAdapter.startLeScan(mLeScanCallback)
+
+4. mBluetoothAdapter.startLeScan
+
+5. onListItemClick
+    starts intent DeviceControlActivity
+
+DeviceControlActivity ... specified as application activity in AndroidManifest
+This is started as an intent from DeviceScanActivity in onListItemClick
+
+BluetoothLeService  ... specified as application service in AndroidManifest
+This is started as a service intent from DeviceControlActivity
+
